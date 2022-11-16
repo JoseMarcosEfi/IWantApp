@@ -1,7 +1,7 @@
-﻿namespace IWantApp.Infra.Data;
-
-using IWantApp.Domain.Products;
+﻿using IWantApp.Domain.Products;
 using Microsoft.EntityFrameworkCore;
+
+namespace IWantApp.Infra.Data;
 
 public class ApplicationDbContext : DbContext
 {
@@ -12,7 +12,18 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        
+        builder.Entity<Product>()
+            .Property(p => p.Name).IsRequired();
+        builder.Entity<Product>()
+            .Property(p => p.Description).HasMaxLength(255);
+        builder.Entity<Category>()
+            .Property(c => c.Name).IsRequired();
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configuration)
+    {
+        configuration.Properties<string>()
+            .HaveMaxLength(100);
     }
 
 
