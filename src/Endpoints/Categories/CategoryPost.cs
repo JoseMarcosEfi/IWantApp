@@ -13,18 +13,14 @@ public class CategoryPost
     {
         //Útil em algums casos
         //if(string.IsNullOrEmpty(categoryRequest.Name))
-          //  return Results.BadRequest("Name is required");
+        //  return Results.BadRequest("Name is required");
 
-        var category = new Category(categoryRequest.Name)
-        {            
-            CreatedBy = "test",
-            CreatedOn= DateTime.Now,
-            EditedBy= "test",
-            EditedOn = DateTime.Now,
-        };
+        var category = new Category(categoryRequest.Name, "Teste", "Teste");
 
-        if(!category.IsValid)
-            return Results.BadRequest(category.Notifications);
+        if (!category.IsValid)
+        {
+            return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
+        }
 
         context.Categories.Add(category);
         context.SaveChanges();
