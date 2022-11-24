@@ -16,6 +16,9 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        //não esquecer de chamar
+        base.OnModelCreating(builder);
+
         builder.Ignore<Notification>();
 
         builder.Entity<Product>()
